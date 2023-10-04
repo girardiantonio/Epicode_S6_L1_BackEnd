@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Applicazione ASP.NET</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark" style="border-bottom: 1px solid black">
+        <div class="container">
+            <a href="@Url.Action("Index", "Login")" class="navbar-brand"><img src="~/Content/imgs/logo.png" style="width:100px" /></a>
+            <div class="mx-5 collapse navbar-collapse d-sm-inline-flex d-flex justify-content-between">
+                @if (User.IsInRole("Admin"))
+                {
+                    @Html.ActionLink("Gestione Privati", "ListaUtente", "Utente", new { area = "" }, new { @class = "nav-link mx-3" })
+                    @Html.ActionLink("Gestione Aziende", "ListaAzienda", "Azienda", new { area = "" }, new { @class = "nav-link mx-3" })
+                    @Html.ActionLink("Gestione Spedizione", "ListaSpedizione", "Spedizione", new { area = "" }, new { @class = "nav-link mx-3" })
+                }
+                else
+                {
+                    @Html.ActionLink("Cerca Spedizioni", "CercaSpedizione", "Spedizione", new { area = "" }, new { @class = "nav-link mx-3" })
+                }
+
+                <div>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <div class="dropdown">
+                            <button class="btn bg-light dropdown-toggle" type="button" id="Dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Benvenuto, @User.Identity.Name
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="Dropdown">
+                                @Html.ActionLink("Profilo", "Profilo", "Login", new { area = "" }, new { @class = "dropdown-item" })
+                                @Html.ActionLink("Logout", "Logout", "Login", new { area = "" }, new { @class = "dropdown-item" })
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Login", "Login", "Login", new { area = "" }, new { @class = "nav-link mx-3" })
+                    }
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer class="d-flex justify-content-between">
+            <p>&copy; @DateTime.Now.Year - BRT ASP.NET</p>
+            <p>Creato a solo scopo didattico</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

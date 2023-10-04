@@ -1,0 +1,53 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<main>
+    <section class="row">
+        <h1 id="title">La nuova BRT</h1>
+        <div class="d-flex flex-column row align-items-end m-0 p-0" style="position: relative;">
+            <img src="~/Content/imgs/sfondo.jpg" class="m-0 p-0" />
+            <div class="bg-light w-25 position-absolute d-flex flex-column justify-content-center rounded" style="left: 4em; bottom: 4em; height: 40%">
+                <h4>Dov'è la mia spedizione?</h4>
+                <div class="d-flex align-items-center">
+                    <form class="d-flex mb-2 mt-1" role="search">
+                        <input class="form-control me-2" type="search" placeholder="Numero spedizione" aria-label="Search">
+                        <button class="btn btn-outline-danger" type="submit">Cerca</button>
+                    </form>
+                </div>
+                <a href="@Url.Action("CercaSpedizione", "Spedizione")" class="text-decoration-none text-black">Ricerca Avanzata ></a>
+            </div>
+        </div>
+        <p class="lead mt-5 mb-5">
+            <strong>Oggi abbiamo cambiato simbolo</strong>
+            <br />
+            Anche con il nuovo logo sarà la BRT di sempre. Quella che si è conquistata la fiducia degli italiani con una presenza quasi centenaria su tutto il territorio. Sarà una BRT con un marchio nuovo, in sintonia con DPDgroup perché BRT ha acquisito una dimensione internazionale grazie all’unione con un gruppo leader a livello mondiale nelle spedizioni. Se siamo il corriere espresso più usato in Italia, lo dobbiamo a tutti voi. Allargando i nostri confini continueremo ad essere bravi a consegnare puntualmente, raggiungendo aziende e privati con soluzioni tecnologiche e sostenibili. Ecco cosa significa essere BRT, Bravi a Raggiungere Tutti, in Italia e nel mondo.
+        </p>
+    </section>
+
+    <div class="row d-flex justify-content-between mt-5 mb-5">
+        <section class="col-md-3 bg-danger text-light rounded">
+            <h2>myBRT - mittente</h2>
+            <p class="h-25">Accedi all'Area Clienti e gestisci in autonomia le tue spedizioni</p>
+            <p>
+                <a class="btn btn-outline-dark text-light" href="https://go.microsoft.com/fwlink/?LinkId=301866">myBRT - mittente &raquo;</a>
+            </p>
+        </section>
+        <section class="col-md-3 bg-secondary text-light rounded">
+            <h2 id="gettingStartedTitle">myBRT - destinatario</h2>
+            <p class="h-25">
+                Gestisci in autonomia e flessibilità le tue spedizioni
+            </p>
+            <p>
+                <a class="btn btn-outline-dark text-light" href="https://go.microsoft.com/fwlink/?LinkId=301865">myBRT - destinatario &raquo;</a>
+            </p>
+        </section>
+        <section class="col-md-3 bg-light rounded">
+            <h2>myBRT - logistica</h2>
+            <p>Gestisci il tuo stock di prodotti nel nostro magazzino</p>
+            <p>
+                <a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301866">myBRT - logistica &raquo;</a>
+            </p>
+        </section>
+    </div>
+</main>

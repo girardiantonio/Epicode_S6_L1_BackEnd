@@ -1,0 +1,63 @@
+﻿@model Epicode_S6_L1_BackEnd.Models.Login
+
+@{
+    ViewBag.Title = "Register";
+}
+
+@using (Html.BeginForm("Register", "Login", FormMethod.Post, new { @id = "form1" }))
+{
+    <div class="card" style="border-radius: 1rem;">
+        <div class="row g-0">
+            <div class="col-md-6 col-lg-5 d-none d-md-block">
+                <img src="~/Content/imgs/login.png" alt="login form" class="img-fluid" />
+            </div>
+            <div class="col-md-6 col-lg-7" style="border-left: 10px solid red">
+                <div class="card-body p-4 p-lg-5 text-black">
+
+                    <div class="d-flex align-items-center mb-3 pb-1">
+                        <div class="d-flex flex-column">
+                            <span class="h1 fw-bold mb-0">BRT Express</span>
+                            <span class="h3 text-danger fw-bold mb-0">Register</span>
+                        </div>
+                    </div>
+
+                    <h5 class="fw-normal mb-3" style="letter-spacing: 1px;">Crea un nuovo account</h5>
+
+                    <div id="inputlogin" class="form-outline mb-4">
+                        <div class="mb-3">
+                            @Html.TextBoxFor(model => model.Nome, new { @class = "form-control form-control-lg", placeholder = "Nome" })
+                            @Html.ValidationMessageFor(model => model.Nome, "", new { @style = "color: red" })
+                        </div>
+                        <div class="mb-3">
+                            @Html.TextBoxFor(model => model.Cognome, new { @class = "form-control form-control-lg", placeholder = "Cognome" })
+                            @Html.ValidationMessageFor(model => model.Cognome, "", new { @style = "color: red" })
+                        </div>
+                        <div class="mb-3">
+                            @Html.TextBoxFor(model => model.Email, new { @class = "form-control form-control-lg", placeholder = "Email" })
+                            @Html.ValidationMessageFor(model => model.Email, "", new { @style = "color: red" })
+                        </div>
+                        <div class="mb-3">
+                            @Html.TextBoxFor(model => model.Username, new { @class = "form-control form-control-lg", placeholder = "Username" })
+                            @Html.ValidationMessageFor(model => model.Username, "", new { @style = "color: red" })
+                        </div>
+
+                    @Html.PasswordFor(model => model.Password, new { @class = "form-control form-control-lg", placeholder = "Password" })
+                    @Html.ValidationMessageFor(model => model.Password, "", new { @style = "color: red" })
+                    </div>
+
+                    <div class="pt-1 mb-4 d-flex align-items-center">
+                        <input type="submit" value="Register" class="btn btn-danger" />
+                    </div>
+
+                    <a class="small text-muted" href="https://www.linkedin.com/in/marco-puccio/">Password dimenticata?</a>
+                    <p class="mb-5 pb-lg-2" style="color: #393f81;">
+                        Hai già un account?
+                        @Html.ActionLink("Effettua il Login qui", "Login", "Login", null, new { style = "color: #393f81;" })
+                    </p>
+                    <a href="https://www.linkedin.com/in/marco-puccio/" class="small text-muted">Termini di utilizzo</a>
+                    <br />
+                </div>
+            </div>
+        </div>
+    </div>
+}

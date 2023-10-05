@@ -1,0 +1,66 @@
+﻿
+@{
+    ViewBag.Title = "DettaglioSpedizioneCliente";
+}
+
+<h2 class="text-center">Dettaglio Spedizione</h2>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Mittente</th>
+            <th>NomeDestinatario</th>
+            <th>IndirizzoDestinazione</th>
+            <th>CittaDestinazione</th>
+            <th>Costo</th>
+            <th>PesoKg</th>
+            <th>DataSpedizione</th>
+            <th>DataStimataConsegna</th>
+            <th>CodiceSpedizione</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var dettaglio in Model)
+        {
+            <tr>
+                <td>@dettaglio.Spedizione.Mittente</td>
+                <td>@dettaglio.Spedizione.NomeDestinatario</td>
+                <td>@dettaglio.Spedizione.IndirizzoDestinazione</td>
+                <td>@dettaglio.Spedizione.CittaDestinazione</td>
+                <td>@dettaglio.Spedizione.Costo</td>
+                <td>@dettaglio.Spedizione.PesoKg</td>
+                <td>@dettaglio.Spedizione.DataSpedizione</td>
+                <td>@dettaglio.Spedizione.DataStimataConsegna</td>
+                <td>@dettaglio.Spedizione.CodiceSpedizione</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h2 class="text-center">Stato Spedizione</h2>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Aggiornamento</th>
+            <th>Luogo</th>
+            <th>Descrizione</th>
+            <th>DataOraAggiornamento</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var dettaglio in Model)
+        {
+            if (dettaglio.Stato != null)
+            {
+                foreach (var stato in dettaglio.Stato)
+                {
+                    <tr>
+                        <td>@stato.Aggiornamento</td>
+                        <td>@stato.Luogo</td>
+                        <td>@stato.Descrizione</td>
+                        <td>@stato.DataOraAggiornamento</td>
+                    </tr>
+                }
+            }
+        }
+    </tbody>
+</table>

@@ -221,6 +221,7 @@
     <Content Include="Views\Spedizione\DettaglioSpedizione.cshtml" />
     <Content Include="Views\Spedizione\AggiungiStato.cshtml" />
     <Content Include="Views\Spedizione\ModificaStato.cshtml" />
+    <Content Include="Views\Spedizione\DettaglioSpedizioneCliente.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

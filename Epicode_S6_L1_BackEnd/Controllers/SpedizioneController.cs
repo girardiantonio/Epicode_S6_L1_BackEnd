@@ -11,7 +11,7 @@ using System.Web.Mvc;
 
 namespace Epicode_S6_L1_BackEnd.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "admin")]
     public class SpedizioneController : Controller
     {
         private string GetConnectionString()
@@ -63,7 +63,7 @@ namespace Epicode_S6_L1_BackEnd.Controllers
             using (SqlConnection sqlConnection = new SqlConnection(GetConnectionString()))
             {
                 sqlConnection.Open();
-                string query = "SELECT * FROM Stato WHERE SpedizioneId = @SpedizioneId";
+                string query = "SELECT * FROM Stato WHERE SpedizioneId = @SpedizioneId ORDER BY DataOraAggiornamento DESC";
 
                 using (SqlCommand cmd = new SqlCommand(query, sqlConnection))
                 {
@@ -89,7 +89,6 @@ namespace Epicode_S6_L1_BackEnd.Controllers
                 return ListaStato;
             }
         }
-
 
         private Stato GetStatoById(int SpedizioneId)
         {
@@ -204,7 +203,7 @@ namespace Epicode_S6_L1_BackEnd.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public ActionResult DettaglioSpedizione(int Id)
+        public ActionResult DettaglioSpedizioneCliente(int Id)
         {
             Spedizione dettaglioSpedizione = GetSpedizioneById(Id);
 
@@ -229,7 +228,31 @@ namespace Epicode_S6_L1_BackEnd.Controllers
             return View(dettaglioModel);
         }
 
+        [HttpGet]
+        public ActionResult DettaglioSpedizione(int Id)
+        {
+            Spedizione dettaglioSpedizione = GetSpedizioneById(Id);
 
+            if (dettaglioSpedizione == null)
+            {
+                TempData["Errore"] = "Spedizione non trovata!";
+                return RedirectToAction("CercaSpedizione", "Spedizione");
+            }
+
+            List<Stato> ListaStato = GetListStatoById(dettaglioSpedizione.Id);
+
+            List<DettaglioSpedizione> dettaglioModel = new List<DettaglioSpedizione>();
+
+            DettaglioSpedizione dettaglio = new DettaglioSpedizione
+            {
+                Spedizione = dettaglioSpedizione,
+                Stato = ListaStato
+            };
+
+            dettaglioModel.Add(dettaglio);
+
+            return View(dettaglioModel);
+        }
 
         [HttpGet]
         [AllowAnonymous]
@@ -277,7 +300,7 @@ namespace Epicode_S6_L1_BackEnd.Controllers
                         }
                         else
                         {
-                            ModelState.AddModelError(string.Empty, "Spedizione non trovata.");
+                            ViewBag.AuthError = "Spedizione non trovata, verifica i tuoi dati";
                             return View();
                         }
                     }
@@ -322,11 +345,12 @@ namespace Epicode_S6_L1_BackEnd.Controllers
                         }
                     }
 
-                    return RedirectToAction("ListaSpedizione");
+                    return RedirectToAction("DettaglioSpedizione", new { Id = model.SpedizioneId });
                 }
                 catch (Exception ex)
                 {
-                    ModelState.AddModelError(string.Empty, "Si è verificato un errore durante l'aggiunta dello stato.");
+                    ViewBag.AuthError = "Parametri non validi";
+                    return View();
                 }
             }
             return View(model);

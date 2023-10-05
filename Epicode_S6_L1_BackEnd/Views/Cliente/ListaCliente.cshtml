@@ -30,7 +30,7 @@
                     <td>@azienda.IndirizzoSede</td>
                     <td>@azienda.CittaSede</td>
                     <td class="d-flex justify-content-evenly">
-                        @Html.ActionLink("Aggiungi Spedizione", "AggiungiSpedizione", "Spedizione", new { ClienteId = azienda.Id, Mittente = azienda.CodiceFiscale }, new { @class = "btn btn-success btn-sm" })
+                        @Html.ActionLink("Aggiungi Spedizione", "AggiungiSpedizione", "Spedizione", new { ClienteId = azienda.Id, Mittente = azienda.PartitaIVA }, new { @class = "btn btn-success btn-sm" })
                         @Html.ActionLink("Modifica Azienda", "ModificaCliente", "Cliente", new { Id = azienda.Id }, new { @class = "btn btn-warning btn-sm" })
                         @Html.ActionLink("Elimina Azienda", "EliminaCliente", "Cliente", new { Id = azienda.Id }, new { @class = "btn btn-danger btn-sm" })
                     </td>

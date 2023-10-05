@@ -1,0 +1,53 @@
+﻿@model Epicode_S6_L1_BackEnd.Models.Stato
+
+@{
+    ViewBag.Title = "AggiungiStato";
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="container body-content">
+        <h2 class="text-center">Aggiungi Stato Spedizione</h2>
+
+        <div class="text-right mt-3 mb-3">
+            <a href="@Url.Action("ListaSpedizione", "Spedizione")" class="btn btn-primary">Lista delle Spedizioni</a>
+        </div>
+
+        @Html.HiddenFor(model => model.SpedizioneId)
+
+        <div class="row justify-content-center container">
+            <div class="d-flex flex-column align-items-center">
+
+                <div>
+                    <h6>Aggiornamento</h6>
+                    @Html.EditorFor(model => model.Aggiornamento, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Aggiornamento, "", new { @class = "text-danger" })
+                </div>
+
+                <div>
+                    <h6>Luogo</h6>
+                    @Html.EditorFor(model => model.Luogo, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Luogo, "", new { @class = "text-danger" })
+                </div>
+
+                <div>
+                    <h6>Descrizione</h6>
+                    @Html.EditorFor(model => model.Descrizione, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Descrizione, "", new { @class = "text-danger" })
+                </div>
+
+                <div>
+                    <h6>Data e Ora Aggiornamento</h6>
+                    @Html.EditorFor(model => model.DataOraAggiornamento, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.DataOraAggiornamento, "", new { @class = "text-danger" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="text-center mt-3">
+            <input type="submit" value="Aggiungi Stato Spedizione" class="btn btn-success" />
+        </div>
+    </div>
+}

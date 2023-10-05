@@ -1,0 +1,74 @@
+﻿@model Epicode_S6_L1_BackEnd.Models.DettaglioSpedizione
+
+@{
+    ViewBag.Title = "DettaglioSpedizione";
+}
+
+<h2 class="text-center">Dettaglio Spedizione</h2>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>ClienteId</th>
+            <th>Mittente</th>
+            <th>NomeDestinatario</th>
+            <th>IndirizzoDestinazione</th>
+            <th>CittaDestinazione</th>
+            <th>Costo</th>
+            <th>PesoKg</th>
+            <th>DataSpedizione</th>
+            <th>DataStimataConsegna</th>
+            <th>CodiceSpedizione</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>@Model.Spedizione.Id</td>
+            <td>@Model.Spedizione.ClienteId</td>
+            <td>@Model.Spedizione.Mittente</td>
+            <td>@Model.Spedizione.NomeDestinatario</td>
+            <td>@Model.Spedizione.IndirizzoDestinazione</td>
+            <td>@Model.Spedizione.CittaDestinazione</td>
+            <td>@Model.Spedizione.Costo</td>
+            <td>@Model.Spedizione.PesoKg</td>
+            <td>@Model.Spedizione.DataSpedizione</td>
+            <td>@Model.Spedizione.DataStimataConsegna</td>
+            <td>@Model.Spedizione.CodiceSpedizione</td>
+        </tr>
+    </tbody>
+</table>
+
+@if (Model.Stato != null)
+{
+    <h2 class="text-center">Stato Spedizione</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>SpedizioneId</th>
+                <th>Aggiornamento</th>
+                <th>Luogo</th>
+                <th>Descrizione</th>
+                <th>DataOraAggiornamento</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Model.Stato.Id</td>
+                <td>@Model.Stato.SpedizioneId</td>
+                <td>@Model.Stato.Aggiornamento</td>
+                <td>@Model.Stato.Luogo</td>
+                <td>@Model.Stato.Descrizione</td>
+                <td>@Model.Stato.DataOraAggiornamento</td>
+            </tr>
+        </tbody>
+    </table>
+}
+else
+{
+    <h2 class="text-center">Stato Spedizione</h2>
+    <p class="text-center">Stato Spedizione non disponibile.</p>
+    <div class="text-center mt-3 mb-3">
+        <a href="@Url.Action("AggiungiStato", "Spedizione")" class="btn btn-primary">Aggiungi Stato</a>
+    </div>
+}

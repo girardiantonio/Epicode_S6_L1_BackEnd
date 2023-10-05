@@ -4,16 +4,11 @@
     ViewBag.Title = "ListaSpedizione";
 }
 
-<div class="container body-content">
-    <div class="row">
-        <div>
-            <h2 class="text-center">Lista delle spedizioni</h2>
-        </div>
-        <div class="text-right mt-3 mb-3">
-            <a href="@Url.Action("ListaCliente", "Cliente")" class="btn btn-primary">Aggiungi Spedizione</a>
-        </div>
+<div>
+    <div class="text-right mt-3 mb-3">
+        <a href="@Url.Action("ListaCliente", "Cliente")" class="btn btn-primary">Aggiungi Spedizione</a>
     </div>
-
+    <h2 class="text-center">Lista delle spedizioni</h2>
     <table class="table table-bordered">
         <thead>
             <tr>
@@ -37,7 +32,7 @@
                     <td>@spedizione.CittaDestinazione</td>
                     <td>@spedizione.DataSpedizione</td>
                     <td class="d-flex justify-content-evenly">
-                        @Html.ActionLink("Dettagli", "DettagliSpedizione", "Spedizione", new { Id = spedizione.Id }, new { @class = "btn btn-success btn-sm" })
+                        @Html.ActionLink("Dettagli", "DettaglioSpedizione", "Spedizione", new { Id = spedizione.Id }, new { @class = "btn btn-success btn-sm" })
                         @Html.ActionLink("Modifica", "ModificaSpedizione", "Spedizione", new { Id = spedizione.Id }, new { @class = "btn btn-warning btn-sm" })
                         @Html.ActionLink("Elimina", "EliminaSpedizione", "Spedizione", new { Id = spedizione.Id }, new { @class = "btn btn-danger btn-sm" })
                     </td>

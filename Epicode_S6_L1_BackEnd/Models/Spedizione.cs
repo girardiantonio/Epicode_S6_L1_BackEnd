@@ -21,6 +21,22 @@ namespace Epicode_S6_L1_BackEnd.Models
         public string DataSpedizione { get; set; }
         public string DataStimataConsegna { get; set; }
     }
+    public class Stato
+    {
+        public int Id { get; set; }
+        public int SpedizioneId { get; set; }
+        public string Aggiornamento { get; set; }
+        public string Luogo { get; set; }
+        public string Descrizione { get; set; }
+        public string DataOraAggiornamento { get; set; }
+
+    }
+
+    public class DettaglioSpedizione
+    {
+        public Spedizione Spedizione { get; set; }
+        public Stato Stato { get; set; }
+    }
 }
 
 

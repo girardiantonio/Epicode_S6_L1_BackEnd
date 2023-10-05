@@ -1,0 +1,113 @@
+﻿@model Epicode_S6_L1_BackEnd.Models.Cliente
+
+@{
+    ViewBag.Title = "AggiungiCliente";
+}
+
+<div class="container body-content">
+    <h2 class="text-center">Inserisci Cliente</h2>
+
+    <div class="text-right mt-3 mb-3">
+        <a href="@Url.Action("ListaCliente", "Cliente")" class="btn btn-primary">Lista Clienti</a>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="row justify-content-center conteiner">
+            <div class="d-flex flex-column align-items-center">
+
+                <div class="form-group">
+                    <h6>Sei il tipo di cliente:</h6>
+                    <div class="form-check p-0 mb-3 mt-3">
+                        @Html.RadioButtonFor(model => model.IsAzienda, true, new { htmlAttributes = new { @class = "form-control" }, id = "ivaSelect" }) Azienda
+                        @Html.RadioButtonFor(model => model.IsAzienda, false, new { htmlAttributes = new { @class = "form-control" }, id = "cfSelect" }) Privato
+                    </div>
+                </div>
+
+                <div>
+                    <h6>Nome</h6>
+                    @Html.EditorFor(model => model.Nome, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Nome, "", new { @class = "text-danger" })
+                </div>
+
+                <div id="ivaLabel" class="d-none">
+                    <div>
+                        <h6>Partita IVA</h6>
+                        @Html.EditorFor(model => model.PartitaIVA, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.PartitaIVA, "", new { @class = "text-danger" })
+                    </div>
+                    <div>
+                        <h6>Indirizzo Sede</h6>
+                        @Html.EditorFor(model => model.IndirizzoSede, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.IndirizzoSede, "", new { @class = "text-danger" })
+                    </div>
+                    <div>
+                        <h6>Citta Sede</h6>
+                        @Html.EditorFor(model => model.CittaSede, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.CittaSede, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div id="cfLabel" class="d-none">
+                    <div>
+                        <h6>Cognome</h6>
+                        @Html.EditorFor(model => model.Cognome, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Cognome, "", new { @class = "text-danger" })
+                    </div>
+                    <div>
+                        <h6>
+                            Codice Fiscale
+                        </h6>
+                        @Html.EditorFor(model => model.CodiceFiscale, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.CodiceFiscale, "", new { @class = "text-danger" })
+                    </div>
+                    <div>
+                        <h6>
+                            Luogo di Nascita
+                        </h6>
+                        @Html.EditorFor(model => model.LuogoDiNascita, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.LuogoDiNascita, "", new { @class = "text-danger" })
+                    </div>
+                    <div>
+                        <h6>
+                            Residenza
+                        </h6>
+                        @Html.EditorFor(model => model.Residenza, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Residenza, "", new { @class = "text-danger" })
+                    </div>
+                    <div>
+                        <h6>
+                            Data di Nascita
+                        </h6>
+                        @Html.EditorFor(model => model.DataDiNascita, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.DataDiNascita, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="text-center mt-3">
+                    <input type="submit" value="Aggiungi Cliente" class="btn btn-success" />
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#ivaSelect').change(function () {
+                if ($('#ivaSelect').is(':checked')) {
+                    $('#ivaLabel').toggleClass('d-none')
+                    $('#cfLabel').addClass('d-none')
+                }
+            });
+            $('#cfSelect').change(function () {
+                if ($('#cfSelect').is(':checked')) {
+                    $('#cfLabel').toggleClass('d-none')
+                    $('#ivaLabel').addClass('d-none')
+                }
+            })
+        })
+    </script>
+}

@@ -35,39 +35,42 @@ namespace Epicode_S6_L1_BackEnd.Controllers
         [AllowAnonymous]
         public ActionResult Login(Login model)
         {
+            if (ModelState.IsValid)
+            {
             using (SqlConnection sqlConnection = new SqlConnection(GetConnectionString()))
-            try
-            {
-                sqlConnection.Open();
-
-                string query = "SELECT * FROM Login WHERE Username = @Username AND Password = @Password";
-
-                SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
-                sqlCommand.Parameters.AddWithValue("Username", model.Username);
-                sqlCommand.Parameters.AddWithValue("Password", model.Password);
-
-                SqlDataReader reader = sqlCommand.ExecuteReader();
-                if (reader.HasRows)
+                try
                 {
-                    FormsAuthentication.SetAuthCookie(model.Username, false);
-                    return RedirectToAction("Index", "Login");
+                    sqlConnection.Open();
+
+                    string query = "SELECT * FROM Login WHERE Username = @Username AND Password = @Password";
+
+                    SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
+                    sqlCommand.Parameters.AddWithValue("Username", model.Username);
+                    sqlCommand.Parameters.AddWithValue("Password", model.Password);
+
+                    SqlDataReader reader = sqlCommand.ExecuteReader();
+                    if (reader.HasRows)
+                    {
+                        FormsAuthentication.SetAuthCookie(model.Username, false);
+                        return RedirectToAction("Index", "Login");
+                    }
+                    else
+                    {
+                        ViewBag.AuthError = "Autenticazione non riuscita, credenziali non corrette";
+                        return View();
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    ViewBag.AuthError = "Autenticazione non riuscita, credenziali non corrette";
-                    return View();
+
+                }
+                finally
+                {
+                    sqlConnection.Close();
                 }
             }
-            catch (Exception ex)
-            {
 
-            }
-            finally
-            {
-                sqlConnection.Close();
-            }
-
-            return RedirectToAction("Index", "Login");
+            return View();
         }
 
         public ActionResult Logout()
@@ -76,12 +79,15 @@ namespace Epicode_S6_L1_BackEnd.Controllers
             return RedirectToAction("Index", "Login");
         }
 
+        [HttpGet]
+        [AllowAnonymous]
         public ActionResult Register() 
         {
             return View();
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public ActionResult Register([Bind(Exclude ="IsAdmin")] Login model)
         {
             if (ModelState.IsValid)
@@ -102,10 +108,9 @@ namespace Epicode_S6_L1_BackEnd.Controllers
                         cmd.ExecuteNonQuery();
                     }
                 }
-                TempData["Messaggio"] = "Utente creato con successo!";
                 return RedirectToAction("Index");
             }
-            TempData["Errore"] = "Il modello non è valido. Correggi gli errori e riprova.";
+            ViewBag.AuthError = "Registrazione non riuscita, moduli non corretti";
             return View(model);
         }
     }

@@ -4,7 +4,7 @@
     ViewBag.Title = "Register";
 }
 
-@using (Html.BeginForm("Register", "Login", FormMethod.Post, new { @id = "form1" }))
+@using (Html.BeginForm())
 {
     <div class="card" style="border-radius: 1rem;">
         <div class="row g-0">
@@ -41,9 +41,16 @@
                             @Html.ValidationMessageFor(model => model.Username, "", new { @style = "color: red" })
                         </div>
 
-                    @Html.PasswordFor(model => model.Password, new { @class = "form-control form-control-lg", placeholder = "Password" })
-                    @Html.ValidationMessageFor(model => model.Password, "", new { @style = "color: red" })
+                        @Html.PasswordFor(model => model.Password, new { @class = "form-control form-control-lg", placeholder = "Password" })
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @style = "color: red" })
                     </div>
+
+                    @if (ViewBag.AuthError != null)
+                    {
+                        <div class="alert alert-danger">
+                            @ViewBag.AuthError
+                        </div>
+                    }
 
                     <div class="pt-1 mb-4 d-flex align-items-center">
                         <input type="submit" value="Register" class="btn btn-danger" />

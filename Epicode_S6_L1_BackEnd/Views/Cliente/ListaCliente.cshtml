@@ -1,0 +1,76 @@
+﻿@model IEnumerable<Epicode_S6_L1_BackEnd.Models.Cliente>
+
+@{
+    ViewBag.Title = "ListaCliente";
+}
+
+<div>
+    <div class="text-right mt-3 mb-3">
+        <a href="@Url.Action("AggiungiCliente", "Cliente")" class="btn btn-primary">Aggiungi Cliente</a>
+    </div>
+    <h2 class="text-center">Lista Aziende</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nome Azienda</th>
+                <th>Partita IVA</th>
+                <th>Indirizzo Sede</th>
+                <th>Citta Sede</th>
+                <th>Azioni</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var azienda in Model.Where(c => c.IsAzienda))
+            {
+                <tr>
+                    <td>@azienda.Id</td>
+                    <td>@azienda.Nome</td>
+                    <td>@azienda.PartitaIVA</td>
+                    <td>@azienda.IndirizzoSede</td>
+                    <td>@azienda.CittaSede</td>
+                    <td class="d-flex justify-content-evenly">
+                        @Html.ActionLink("Aggiungi", "AggiungiSpedizione", "Spedizione", new { ClienteId = azienda.Id, Mittente = azienda.PartitaIVA }, new { @class = "btn btn-success btn-sm" })
+                        @Html.ActionLink("Modifica", "ModificaCliente", "Cliente", new { Id = azienda.Id }, new { @class = "btn btn-warning btn-sm" })
+                        @Html.ActionLink("Elimina", "EliminaCliente", "Cliente", new { Id = azienda.Id }, new { @class = "btn btn-danger btn-sm" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <h2 class="text-center">Lista Privati</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nome</th>
+                <th>Cognome</th>
+                <th>Codice Fiscale</th>
+                <th>Luogo di Nascita</th>
+                <th>Residenza</th>
+                <th>Data di Nascita</th>
+                <th>Azioni</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var privato in Model.Where(c => !c.IsAzienda))
+            {
+                <tr>
+                    <td>@privato.Id</td>
+                    <td>@privato.Nome</td>
+                    <td>@privato.Cognome</td>
+                    <td>@privato.CodiceFiscale</td>
+                    <td>@privato.LuogoDiNascita</td>
+                    <td>@privato.Residenza</td>
+                    <td>@privato.DataDiNascita</td>
+                    <td class="d-flex justify-content-evenly">
+                        @Html.ActionLink("Aggiungi", "AggiungiSpedizione", "Spedizione", new { ClienteId = privato.Id, Mittente = privato.CodiceFiscale }, new { @class = "btn btn-success btn-sm" })
+                        @Html.ActionLink("Modifica", "ModificaCliente", "Cliente", new { Id = privato.Id }, new { @class = "btn btn-warning btn-sm" })
+                        @Html.ActionLink("Elimina", "EliminaCliente", "Cliente", new { Id = privato.Id }, new { @class = "btn btn-danger btn-sm" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

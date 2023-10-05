@@ -11,18 +11,16 @@ namespace Epicode_S6_L1_BackEnd.Models
     {
         public int Id { get; set; }
         public int ClienteId { get; set; }
+        public string Mittente { get; set; }    
+        public string CodiceSpedizione { get; set; }
         public string NomeDestinatario { get; set; }
         public string IndirizzoDestinazione { get; set; }
         public string CittaDestinazione { get; set; }
         public decimal Costo { get; set; }
         public decimal PesoKg { get; set; }
-        public DateTime DataSpedizione { get; set; }
-        public DateTime DataStimataConsegna { get; set; }
-
-
-        public Cliente Cliente { get; set; }
+        public string DataSpedizione { get; set; }
+        public string DataStimataConsegna { get; set; }
     }
-
 }
 
 

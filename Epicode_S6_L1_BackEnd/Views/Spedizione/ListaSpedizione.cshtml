@@ -33,8 +33,6 @@
                     <td>@spedizione.DataSpedizione</td>
                     <td class="d-flex justify-content-evenly">
                         @Html.ActionLink("Dettagli", "DettaglioSpedizione", "Spedizione", new { Id = spedizione.Id }, new { @class = "btn btn-success btn-sm" })
-                        @Html.ActionLink("Modifica", "ModificaSpedizione", "Spedizione", new { Id = spedizione.Id }, new { @class = "btn btn-warning btn-sm" })
-                        @Html.ActionLink("Elimina", "EliminaSpedizione", "Spedizione", new { Id = spedizione.Id }, new { @class = "btn btn-danger btn-sm" })
                     </td>
                 </tr>
             }

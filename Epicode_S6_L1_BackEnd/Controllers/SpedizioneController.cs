@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
@@ -10,6 +11,7 @@ using System.Web.Mvc;
 
 namespace Epicode_S6_L1_BackEnd.Controllers
 {
+    [Authorize]
     public class SpedizioneController : Controller
     {
         private string GetConnectionString()
@@ -54,6 +56,41 @@ namespace Epicode_S6_L1_BackEnd.Controllers
             }
         }
 
+        private List<Stato> GetListStatoById(int SpedizioneId)
+        {
+            List<Stato> ListaStato = new List<Stato>();
+
+            using (SqlConnection sqlConnection = new SqlConnection(GetConnectionString()))
+            {
+                sqlConnection.Open();
+                string query = "SELECT * FROM Stato WHERE SpedizioneId = @SpedizioneId";
+
+                using (SqlCommand cmd = new SqlCommand(query, sqlConnection))
+                {
+                    cmd.Parameters.AddWithValue("@SpedizioneId", SpedizioneId);
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            Stato stato = new Stato
+                            {
+                                Id = (int)reader["Id"],
+                                SpedizioneId = (int)reader["SpedizioneId"],
+                                Aggiornamento = reader["Aggiornamento"].ToString(),
+                                Luogo = reader["Luogo"].ToString(),
+                                Descrizione = reader["Descrizione"].ToString(),
+                                DataOraAggiornamento = (DateTime)reader["DataOraAggiornamento"],
+                            };
+                            ListaStato.Add(stato);
+                        }
+                    }
+                }
+                return ListaStato;
+            }
+        }
+
+
         private Stato GetStatoById(int SpedizioneId)
         {
             using (SqlConnection sqlConnection = new SqlConnection(GetConnectionString()))
@@ -76,7 +113,7 @@ namespace Epicode_S6_L1_BackEnd.Controllers
                                 Aggiornamento = reader["Aggiornamento"].ToString(),
                                 Luogo = reader["Luogo"].ToString(),
                                 Descrizione = reader["Descrizione"].ToString(),
-                                DataOraAggiornamento = reader["DataOraAggiornamento"].ToString(),
+                                DataOraAggiornamento = (DateTime)reader["DataOraAggiornamento"],
                             };
                             return stato;
                         }
@@ -166,6 +203,7 @@ namespace Epicode_S6_L1_BackEnd.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public ActionResult DettaglioSpedizione(int Id)
         {
             Spedizione dettaglioSpedizione = GetSpedizioneById(Id);
@@ -176,38 +214,45 @@ namespace Epicode_S6_L1_BackEnd.Controllers
                 return RedirectToAction("CercaSpedizione", "Spedizione");
             }
 
-            Stato statoSpedizione = GetStatoById(dettaglioSpedizione.Id);
+            List<Stato> ListaStato = GetListStatoById(dettaglioSpedizione.Id);
 
-            var dettaglioModel = new DettaglioSpedizione
+            List<DettaglioSpedizione> dettaglioModel = new List<DettaglioSpedizione>();
+
+            DettaglioSpedizione dettaglio = new DettaglioSpedizione
             {
                 Spedizione = dettaglioSpedizione,
-                Stato = statoSpedizione
+                Stato = ListaStato
             };
+
+            dettaglioModel.Add(dettaglio);
 
             return View(dettaglioModel);
         }
 
 
+
         [HttpGet]
+        [AllowAnonymous]
         public ActionResult CercaSpedizione()
         {
             return View();
         }
 
         [HttpPost]
-        public ActionResult CercaSpedizione(string codiceSpedizione, string Mittente)
+        [AllowAnonymous]
+        public ActionResult CercaSpedizione(string Mittente, string CodiceSpedizione)
         {
             if (ModelState.IsValid)
             {
-                string query = "SELECT * FROM Spedizione WHERE CodiceSpedizione = @CodiceSpedizione AND Mittente = @Mittente";
+                string query = "SELECT * FROM Spedizione WHERE Mittente = @Mittente AND CodiceSpedizione = @CodiceSpedizione";
 
                 using (SqlConnection sqlConnection = new SqlConnection(GetConnectionString()))
                 {
                     sqlConnection.Open();
 
                     SqlCommand command = new SqlCommand(query, sqlConnection);
-                    command.Parameters.AddWithValue("@CodiceSpedizione", codiceSpedizione);
                     command.Parameters.AddWithValue("@Mittente", Mittente);
+                    command.Parameters.AddWithValue("@CodiceSpedizione", CodiceSpedizione);
 
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
@@ -228,10 +273,11 @@ namespace Epicode_S6_L1_BackEnd.Controllers
                                 DataStimataConsegna = reader["DataStimataConsegna"].ToString()
                             };
 
-                            return RedirectToAction("StatoSpedizione", "Stato", new { id = spedizione.Id });
+                            return RedirectToAction("DettaglioSpedizione", new { Id = spedizione.Id });
                         }
                         else
                         {
+                            ModelState.AddModelError(string.Empty, "Spedizione non trovata.");
                             return View();
                         }
                     }
@@ -239,6 +285,7 @@ namespace Epicode_S6_L1_BackEnd.Controllers
             }
             return View();
         }
+
 
         [HttpGet]
         public ActionResult AggiungiStato(int SpedizioneId)
@@ -254,6 +301,8 @@ namespace Epicode_S6_L1_BackEnd.Controllers
             {
                 try
                 {
+                    model.DataOraAggiornamento = DateTime.Now;
+
                     string query = "INSERT INTO Stato (SpedizioneId, Aggiornamento, Luogo, Descrizione, DataOraAggiornamento)" +
                                    "VALUES (@SpedizioneId, @Aggiornamento, @Luogo, @Descrizione, @DataOraAggiornamento)";
 
@@ -282,6 +331,153 @@ namespace Epicode_S6_L1_BackEnd.Controllers
             }
             return View(model);
         }
+
+
+        [HttpGet]
+        public ActionResult ModificaSpedizione(int Id)
+        {
+            Spedizione spedizione = GetSpedizioneById(Id);
+
+            if (spedizione == null)
+            {
+                TempData["Errore"] = "Spedizione non trovata!";
+                return RedirectToAction("CercaSpedizione", "Spedizione");
+            }
+
+            return View(spedizione);
+        }
+
+
+        [HttpPost]
+        public ActionResult ModificaSpedizione(Spedizione model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    using (SqlConnection sqlConnection = new SqlConnection(GetConnectionString()))
+                    {
+                        sqlConnection.Open();
+
+                        string query = "UPDATE Spedizione SET " +
+                                       "CodiceSpedizione = @CodiceSpedizione, " +
+                                       "NomeDestinatario = @NomeDestinatario, " +
+                                       "IndirizzoDestinazione = @IndirizzoDestinazione, " +
+                                       "CittaDestinazione = @CittaDestinazione, " +
+                                       "Costo = @Costo, " +
+                                       "PesoKg = @PesoKg, " +
+                                       "DataSpedizione = @DataSpedizione, " +
+                                       "DataStimataConsegna = @DataStimataConsegna " +
+                                       "WHERE Id = @Id";
+
+                        using (SqlCommand cmd = new SqlCommand(query, sqlConnection))
+                        {
+                            cmd.Parameters.AddWithValue("@Id", model.Id);
+                            cmd.Parameters.AddWithValue("@CodiceSpedizione", model.CodiceSpedizione);
+                            cmd.Parameters.AddWithValue("@NomeDestinatario", model.NomeDestinatario);
+                            cmd.Parameters.AddWithValue("@IndirizzoDestinazione", model.IndirizzoDestinazione);
+                            cmd.Parameters.AddWithValue("@CittaDestinazione", model.CittaDestinazione);
+                            cmd.Parameters.AddWithValue("@Costo", model.Costo);
+                            cmd.Parameters.AddWithValue("@PesoKg", model.PesoKg);
+                            cmd.Parameters.AddWithValue("@DataSpedizione", model.DataSpedizione);
+                            cmd.Parameters.AddWithValue("@DataStimataConsegna", model.DataStimataConsegna);
+
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+
+                    return RedirectToAction("ListaSpedizione");
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError(string.Empty, "Si è verificato un errore durante la modifica della spedizione.");
+                }
+            }
+
+            return View(model);
+        }
+
+
+        [HttpGet]
+        public ActionResult EliminaSpedizione(int Id)
+        {
+            Spedizione spedizioneDaEliminare = GetSpedizioneById(Id);
+
+            if (spedizioneDaEliminare == null)
+            {
+            }
+            else
+            {
+                using (SqlConnection sqlConnection = new SqlConnection(GetConnectionString()))
+                {
+                    sqlConnection.Open();
+                    string deleteStatoQuery = "DELETE FROM Stato WHERE SpedizioneId = @SpedizioneId";
+
+                    using (SqlCommand deleteStatoCmd = new SqlCommand(deleteStatoQuery, sqlConnection))
+                    {
+                        deleteStatoCmd.Parameters.AddWithValue("@SpedizioneId", spedizioneDaEliminare.Id);
+                        deleteStatoCmd.ExecuteNonQuery();
+                    }
+
+                    string deleteSpedizioneQuery = "DELETE FROM Spedizione WHERE Id = @Id";
+
+                    using (SqlCommand deleteSpedizioneCmd = new SqlCommand(deleteSpedizioneQuery, sqlConnection))
+                    {
+                        deleteSpedizioneCmd.Parameters.AddWithValue("@Id", spedizioneDaEliminare.Id);
+                        deleteSpedizioneCmd.ExecuteNonQuery();
+                    }
+
+                }
+            }
+            return RedirectToAction("ListaSpedizione");
+        }
+
+        [HttpGet]
+        public ActionResult ModificaStato(int SpedizioneId)
+        {
+            ViewBag.SpedizioneId = SpedizioneId;
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult ModificaStato(Stato model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    model.DataOraAggiornamento = DateTime.Now;
+
+                    string query = "UPDATE Stato SET Aggiornamento = @Aggiornamento, Luogo = @Luogo, Descrizione = @Descrizione, DataOraAggiornamento = @DataOraAggiornamento WHERE Id = @Id";
+
+                    using (SqlConnection sqlConnection = new SqlConnection(GetConnectionString()))
+                    {
+                        sqlConnection.Open();
+
+                        using (SqlCommand cmd = new SqlCommand(query, sqlConnection))
+                        {
+                            cmd.Parameters.AddWithValue("@Aggiornamento", model.Aggiornamento);
+                            cmd.Parameters.AddWithValue("@Luogo", model.Luogo);
+                            cmd.Parameters.AddWithValue("@Descrizione", model.Descrizione);
+                            cmd.Parameters.AddWithValue("@DataOraAggiornamento", model.DataOraAggiornamento);
+                            cmd.Parameters.AddWithValue("@Id", model.Id);
+
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+
+                    return RedirectToAction("ListaSpedizione");
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError(string.Empty, "Si è verificato un errore durante l'aggiornamento dello stato.");
+                }
+            }
+            return View(model);
+        }
+
+
+
 
 
     }

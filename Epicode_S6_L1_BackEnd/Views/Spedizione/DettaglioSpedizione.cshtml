@@ -1,4 +1,4 @@
-﻿@model Epicode_S6_L1_BackEnd.Models.DettaglioSpedizione
+﻿@model IEnumerable<Epicode_S6_L1_BackEnd.Models.DettaglioSpedizione>
 
 @{
     ViewBag.Title = "DettaglioSpedizione";
@@ -22,53 +22,71 @@
         </tr>
     </thead>
     <tbody>
+        @foreach (var dettaglio in Model)
+        {
+            <tr>
+                <td>@dettaglio.Spedizione.Id</td>
+                <td>@dettaglio.Spedizione.ClienteId</td>
+                <td>@dettaglio.Spedizione.Mittente</td>
+                <td>@dettaglio.Spedizione.NomeDestinatario</td>
+                <td>@dettaglio.Spedizione.IndirizzoDestinazione</td>
+                <td>@dettaglio.Spedizione.CittaDestinazione</td>
+                <td>@dettaglio.Spedizione.Costo</td>
+                <td>@dettaglio.Spedizione.PesoKg</td>
+                <td>@dettaglio.Spedizione.DataSpedizione</td>
+                <td>@dettaglio.Spedizione.DataStimataConsegna</td>
+                <td>@dettaglio.Spedizione.CodiceSpedizione</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="text-center mt-3 mb-3">
+    @foreach (var dettaglio in Model)
+    {
+        <div class="d-flex justify-content-center">
+
+            @Html.ActionLink("Modifica", "ModificaSpedizione", "Spedizione", new { Id = dettaglio.Spedizione.Id }, new { @class = "btn btn-warning btn-sm" })
+            @Html.ActionLink("Elimina", "EliminaSpedizione", "Spedizione", new { Id = dettaglio.Spedizione.Id }, new { @class = "btn btn-danger btn-sm" })
+        </div>
+    }
+</div>
+
+<h2 class="text-center">Stato Spedizione</h2>
+<table class="table table-bordered">
+    <thead>
         <tr>
-            <td>@Model.Spedizione.Id</td>
-            <td>@Model.Spedizione.ClienteId</td>
-            <td>@Model.Spedizione.Mittente</td>
-            <td>@Model.Spedizione.NomeDestinatario</td>
-            <td>@Model.Spedizione.IndirizzoDestinazione</td>
-            <td>@Model.Spedizione.CittaDestinazione</td>
-            <td>@Model.Spedizione.Costo</td>
-            <td>@Model.Spedizione.PesoKg</td>
-            <td>@Model.Spedizione.DataSpedizione</td>
-            <td>@Model.Spedizione.DataStimataConsegna</td>
-            <td>@Model.Spedizione.CodiceSpedizione</td>
+            <th>Id</th>
+            <th>SpedizioneId</th>
+            <th>Aggiornamento</th>
+            <th>Luogo</th>
+            <th>Descrizione</th>
+            <th>DataOraAggiornamento</th>
         </tr>
+    </thead>
+    <tbody>
+        @foreach (var dettaglio in Model)
+        {
+            if (dettaglio.Stato != null)
+            {
+                foreach (var stato in dettaglio.Stato)
+                {
+                    <tr>
+                        <td>@stato.Id</td>
+                        <td>@stato.SpedizioneId</td>
+                        <td>@stato.Aggiornamento</td>
+                        <td>@stato.Luogo</td>
+                        <td>@stato.Descrizione</td>
+                        <td>@stato.DataOraAggiornamento</td>
+                    </tr>
+                }
+            }
+        }
     </tbody>
 </table>
 
-@if (Model.Stato != null)
-{
-    <h2 class="text-center">Stato Spedizione</h2>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>SpedizioneId</th>
-                <th>Aggiornamento</th>
-                <th>Luogo</th>
-                <th>Descrizione</th>
-                <th>DataOraAggiornamento</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>@Model.Stato.Id</td>
-                <td>@Model.Stato.SpedizioneId</td>
-                <td>@Model.Stato.Aggiornamento</td>
-                <td>@Model.Stato.Luogo</td>
-                <td>@Model.Stato.Descrizione</td>
-                <td>@Model.Stato.DataOraAggiornamento</td>
-            </tr>
-        </tbody>
-    </table>
-}
-else
-{
-    <h2 class="text-center">Stato Spedizione</h2>
-    <p class="text-center">Stato Spedizione non disponibile.</p>
-    <div class="text-center mt-3 mb-3">
-        @Html.ActionLink("Aggiungi Stato", "AggiungiStato", "Spedizione", new { SpedizioneId = Model.Spedizione.Id }, new { @class = "btn btn-success btn-sm" })
-    </div>
-}
+<div class="text-center mt-3 mb-3">
+    @foreach (var dettaglio in Model)
+    {
+        @Html.ActionLink("Aggiungi Stato", "AggiungiStato", "Spedizione", new { SpedizioneId = dettaglio.Spedizione.Id }, new { @class = "btn btn-warning btn-sm" })
+    }
+</div>

@@ -1,14 +1,14 @@
 ﻿@model Epicode_S6_L1_BackEnd.Models.Stato
 
 @{
-    ViewBag.Title = "AggiungiStato";
+    ViewBag.Title = "ModificaStato";
 }
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     <div class="container body-content">
-        <h2 class="text-center">Aggiungi Stato Spedizione</h2>
+        <h2 class="text-center">Aggiorna Spedizione</h2>
 
         @Html.HiddenFor(model => model.SpedizioneId)
 

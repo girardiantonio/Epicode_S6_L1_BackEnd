@@ -1,7 +1,78 @@
-﻿
+﻿@model Epicode_S6_L1_BackEnd.Models.Spedizione
+
 @{
     ViewBag.Title = "ModificaSpedizione";
 }
 
-<h2>ModificaSpedizione</h2>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="container body-content">
+        <h2 class="text-center">Inserisci Spedizione</h2>
 
+        <div class="text-right mt-3 mb-3">
+            <a href="@Url.Action("ListaSpedizione", "Spedizione")" class="btn btn-primary">Lista delle Spedizioni</a>
+        </div>
+
+        @Html.HiddenFor(model => model.ClienteId)
+        @Html.HiddenFor(model => model.Mittente)
+
+        <div class="row justify-content-center container">
+            <div class="d-flex flex-column align-items-center">
+
+                <div>
+                    <h6>Codice Spedizione</h6>
+                    @Html.EditorFor(model => model.CodiceSpedizione, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.CodiceSpedizione, "", new { @class = "text-danger" })
+                </div>
+
+                <div>
+                    <h6>Nome Destinatario</h6>
+                    @Html.EditorFor(model => model.NomeDestinatario, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.NomeDestinatario, "", new { @class = "text-danger" })
+                </div>
+
+                <div>
+                    <h6>Indirizzo Destinazione</h6>
+                    @Html.EditorFor(model => model.IndirizzoDestinazione, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.IndirizzoDestinazione, "", new { @class = "text-danger" })
+                </div>
+
+                <div>
+                    <h6>Città Destinazione</h6>
+                    @Html.EditorFor(model => model.CittaDestinazione, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.CittaDestinazione, "", new { @class = "text-danger" })
+                </div>
+
+                <div>
+                    <h6>Costo</h6>
+                    @Html.EditorFor(model => model.Costo, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Costo, "", new { @class = "text-danger" })
+                </div>
+
+                <div>
+                    <h6>Peso in KG</h6>
+                    @Html.EditorFor(model => model.PesoKg, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.PesoKg, "", new { @class = "text-danger" })
+                </div>
+
+                <div>
+                    <h6>Data Spedizione</h6>
+                    @Html.EditorFor(model => model.DataSpedizione, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.DataSpedizione, "", new { @class = "text-danger" })
+                </div>
+
+                <div>
+                    <h6>Data Stimata Consegna</h6>
+                    @Html.EditorFor(model => model.DataStimataConsegna, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.DataStimataConsegna, "", new { @class = "text-danger" })
+                </div>
+
+            </div>
+        </div>
+
+        <div class="text-center mt-3">
+            <input type="submit" value="Aggiungi Spedizione" class="btn btn-success" />
+        </div>
+    </div>
+}

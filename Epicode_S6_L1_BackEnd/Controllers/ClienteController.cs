@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace Epicode_S6_L1_BackEnd.Controllers
 {
+    [Authorize]
     public class ClienteController : Controller
     {
         private string GetConnectionString()

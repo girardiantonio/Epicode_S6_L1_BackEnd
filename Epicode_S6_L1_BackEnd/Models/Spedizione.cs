@@ -28,15 +28,16 @@ namespace Epicode_S6_L1_BackEnd.Models
         public string Aggiornamento { get; set; }
         public string Luogo { get; set; }
         public string Descrizione { get; set; }
-        public string DataOraAggiornamento { get; set; }
-
+        public DateTime DataOraAggiornamento { get; set; }
     }
 
     public class DettaglioSpedizione
     {
         public Spedizione Spedizione { get; set; }
-        public Stato Stato { get; set; }
+        public List<Stato> Stato { get; set; }
     }
+
+
 }
 
 

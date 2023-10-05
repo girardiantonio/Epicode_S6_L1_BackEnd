@@ -240,10 +240,49 @@ namespace Epicode_S6_L1_BackEnd.Controllers
             return View();
         }
 
-        public ActionResult AggiungiStato()
+        [HttpGet]
+        public ActionResult AggiungiStato(int SpedizioneId)
         {
+            ViewBag.SpedizioneId = SpedizioneId;
             return View();
         }
+
+        [HttpPost]
+        public ActionResult AggiungiStato(Stato model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    string query = "INSERT INTO Stato (SpedizioneId, Aggiornamento, Luogo, Descrizione, DataOraAggiornamento)" +
+                                   "VALUES (@SpedizioneId, @Aggiornamento, @Luogo, @Descrizione, @DataOraAggiornamento)";
+
+                    using (SqlConnection sqlConnection = new SqlConnection(GetConnectionString()))
+                    {
+                        sqlConnection.Open();
+
+                        using (SqlCommand cmd = new SqlCommand(query, sqlConnection))
+                        {
+                            cmd.Parameters.AddWithValue("@SpedizioneId", model.SpedizioneId);
+                            cmd.Parameters.AddWithValue("@Aggiornamento", model.Aggiornamento);
+                            cmd.Parameters.AddWithValue("@Luogo", model.Luogo);
+                            cmd.Parameters.AddWithValue("@Descrizione", model.Descrizione);
+                            cmd.Parameters.AddWithValue("@DataOraAggiornamento", model.DataOraAggiornamento);
+
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+
+                    return RedirectToAction("ListaSpedizione");
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError(string.Empty, "Si è verificato un errore durante l'aggiunta dello stato.");
+                }
+            }
+            return View(model);
+        }
+
 
     }
 }

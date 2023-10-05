@@ -69,6 +69,6 @@ else
     <h2 class="text-center">Stato Spedizione</h2>
     <p class="text-center">Stato Spedizione non disponibile.</p>
     <div class="text-center mt-3 mb-3">
-        <a href="@Url.Action("AggiungiStato", "Spedizione")" class="btn btn-primary">Aggiungi Stato</a>
+        @Html.ActionLink("Aggiungi Stato", "AggiungiStato", "Spedizione", new { SpedizioneId = Model.Spedizione.Id }, new { @class = "btn btn-success btn-sm" })
     </div>
 }

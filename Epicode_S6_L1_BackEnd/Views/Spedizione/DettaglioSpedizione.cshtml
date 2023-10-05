@@ -44,12 +44,16 @@
     @foreach (var dettaglio in Model)
     {
         <div class="d-flex justify-content-center">
-
-            @Html.ActionLink("Modifica", "ModificaSpedizione", "Spedizione", new { Id = dettaglio.Spedizione.Id }, new { @class = "btn btn-warning btn-sm" })
-            @Html.ActionLink("Elimina", "EliminaSpedizione", "Spedizione", new { Id = dettaglio.Spedizione.Id }, new { @class = "btn btn-danger btn-sm" })
+            <div style="margin-right: 10px">
+                @Html.ActionLink("Modifica", "ModificaSpedizione", "Spedizione", new { Id = dettaglio.Spedizione.Id }, new { @class = "btn btn-warning btn-sm" })
+            </div>
+            <div>
+                @Html.ActionLink("Elimina", "EliminaSpedizione", "Spedizione", new { Id = dettaglio.Spedizione.Id }, new { @class = "btn btn-danger btn-sm" })
+            </div>
         </div>
     }
 </div>
+
 
 <h2 class="text-center">Stato Spedizione</h2>
 <table class="table table-bordered">
@@ -87,6 +91,6 @@
 <div class="text-center mt-3 mb-3">
     @foreach (var dettaglio in Model)
     {
-        @Html.ActionLink("Aggiungi Stato", "AggiungiStato", "Spedizione", new { SpedizioneId = dettaglio.Spedizione.Id }, new { @class = "btn btn-warning btn-sm" })
+        @Html.ActionLink("Aggiungi Stato", "AggiungiStato", "Spedizione", new { SpedizioneId = dettaglio.Spedizione.Id }, new { @class = "btn btn-success btn-sm" })
     }
 </div>

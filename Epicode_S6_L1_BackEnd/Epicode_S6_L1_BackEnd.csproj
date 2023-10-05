@@ -218,7 +218,6 @@
     <Content Include="Views\Cliente\AggiungiCliente.cshtml" />
     <Content Include="Views\Cliente\ModificaCliente.cshtml" />
     <Content Include="Views\Spedizione\ModificaSpedizione.cshtml" />
-    <Content Include="Views\Spedizione\View.cshtml" />
     <Content Include="Views\Spedizione\DettaglioSpedizione.cshtml" />
     <Content Include="Views\Spedizione\AggiungiStato.cshtml" />
     <Content Include="Views\Spedizione\ModificaStato.cshtml" />

@@ -17,10 +17,10 @@ namespace Epicode_S6_L1_BackEnd.Models
         public string Residenza { get; set; }
         public string DataDiNascita { get; set; }
         public bool IsAzienda { get; set; }
-        public string CodiceFiscale { get; set; } // Codice Fiscale per i privati
-        public string PartitaIVA { get; set; } // Partita IVA per le aziende
-        public string IndirizzoSede { get; set; } // Indirizzo sede per le aziende
-        public string CittaSede { get; set; } // Città sede per le aziende
+        public string CodiceFiscale { get; set; } // Privato
+        public string PartitaIVA { get; set; } // Azienda
+        public string IndirizzoSede { get; set; } // Azienda
+        public string CittaSede { get; set; } // Azienda
 
 
         public static string GetConnectionString()

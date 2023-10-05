@@ -14,37 +14,37 @@
             <a href="@Url.Action("Index", "Login")" class="navbar-brand"><img src="~/Content/imgs/logo.png" style="width:100px" /></a>
             <div class="mx-5 collapse navbar-collapse d-sm-inline-flex d-flex justify-content-between align-items-center">
                 <div class="d-flex">
-                @if (User.IsInRole("Admin"))
-                {
-                @Html.ActionLink("Cerca Spedizioni", "CercaSpedizione", "Spedizione", new { area = "" }, new { @class = "nav-link mx-3" });
-                @Html.ActionLink("Gestione Clienti", "ListaCliente", "Cliente", new { area = "" }, new { @class = "nav-link mx-3" });
-                @Html.ActionLink("Gestione Spedizione", "ListaSpedizione", "Spedizione", new { area = "" }, new { @class = "nav-link mx-3" });
+                    @if (User.IsInRole("Admin"))
+                    {
+                        @Html.ActionLink("Cerca Spedizioni", "CercaSpedizione", "Spedizione", new { area = "" }, new { @class = "nav-link mx-3" });
+                        @Html.ActionLink("Gestione Clienti", "ListaCliente", "Cliente", new { area = "" }, new { @class = "nav-link mx-3" });
+                        @Html.ActionLink("Gestione Spedizione", "ListaSpedizione", "Spedizione", new { area = "" }, new { @class = "nav-link mx-3" });
 
-                }
-                else
-                {
-                @Html.ActionLink("Cerca Spedizioni", "CercaSpedizione", "Spedizione", new { area = "" }, new { @class = "nav-link mx-3" });
-                }
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Cerca Spedizioni", "CercaSpedizione", "Spedizione", new { area = "" }, new { @class = "nav-link mx-3" });
+                    }
                 </div>
 
                 <div>
                     @if (User.Identity.IsAuthenticated)
                     {
-                    <ul style="list-style: none" class="m-0 p-0">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Ciao @User.Identity.Name
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li>@Html.ActionLink("Profilo", "Profilo", "Login", new { area = "" }, new { @class = "dropdown-item" })</li>
-                                <li>@Html.ActionLink("Logout", "Logout", "Login", new { area = "" }, new { @class = "dropdown-item" })</li>
-                            </ul>
-                        </li>
-                    </ul>
+                        <ul style="list-style: none" class="m-0 p-0">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Ciao @User.Identity.Name
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>@Html.ActionLink("Profilo", "Profilo", "Login", new { area = "" }, new { @class = "dropdown-item" })</li>
+                                    <li>@Html.ActionLink("Logout", "Logout", "Login", new { area = "" }, new { @class = "dropdown-item" })</li>
+                                </ul>
+                            </li>
+                        </ul>
                     }
                     else
                     {
-                    @Html.ActionLink("Login", "Login", "Login", new { area = "" }, new { @class = "nav-link mx-3" });
+                        @Html.ActionLink("Login", "Login", "Login", new { area = "" }, new { @class = "nav-link mx-3" });
                     }
                 </div>
             </div>

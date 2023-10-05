@@ -296,7 +296,14 @@ namespace Epicode_S6_L1_BackEnd.Controllers
                                 DataStimataConsegna = reader["DataStimataConsegna"].ToString()
                             };
 
-                            return RedirectToAction("DettaglioSpedizione", new { Id = spedizione.Id });
+                            if (User.IsInRole("Admin"))
+                            {
+                                return RedirectToAction("DettaglioSpedizione", new { Id = spedizione.Id });
+                            }
+                            else
+                            {
+                                return RedirectToAction("DettaglioSpedizioneCliente", new { Id = spedizione.Id });
+                            }
                         }
                         else
                         {
@@ -308,7 +315,6 @@ namespace Epicode_S6_L1_BackEnd.Controllers
             }
             return View();
         }
-
 
         [HttpGet]
         public ActionResult AggiungiStato(int SpedizioneId)
@@ -499,10 +505,5 @@ namespace Epicode_S6_L1_BackEnd.Controllers
             }
             return View(model);
         }
-
-
-
-
-
     }
 }
